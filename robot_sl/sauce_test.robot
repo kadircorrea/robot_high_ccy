@@ -1,12 +1,15 @@
 *** Settings ***
-Library          AppiumLibrary
-Library          OperatingSystem
-Library          SauceLib.py
+Library         AppiumLibrary
+Library         OperatingSystem
+Library         SauceLib.py
 
 *** Variables ***
-${SAUCE_URL}             https://ondemand.us-west-1.saucelabs.com:443/wd/hub
-${TEST_URL}              https://www.google.es
-${SESSION_INDEX}         1
+${SAUCE_URL}              https://ondemand.us-west-1.saucelabs.com:443/wd/hub
+${TEST_URL}               https://www.google.es
+${SESSION_INDEX}          1
+# Default values if not passed from command line
+${BUILD_NAME_VAR}         Default-Robot-Build
+${DEVICE_NAME_VAR}        iPhone Simulator
 
 *** Test Cases ***
 Open Safari Test
@@ -21,7 +24,7 @@ Setup Sauce Options
     ${KEY}=     Get Environment Variable    SAUCE_ACCESS_KEY
 
     &{SAUCE_OPTS}=  Create Dictionary
-    ...    build=High-Resilience-Robot-Test-improved-redirect-0
+    ...    build=${BUILD_NAME_VAR}
     ...    name=Robot-Run-${SESSION_INDEX}
     ...    username=${USER}
     ...    accessKey=${KEY}
@@ -30,7 +33,7 @@ Setup Sauce Options
     ...    platformName=iOS
     ...    browserName=Safari
     ...    appium:platformVersion=17.0
-    ...    appium:deviceName=iPhone Simulator
+    ...    appium:deviceName=${DEVICE_NAME_VAR}
     ...    appium:automationName=XCUITest
     ...    sauce:options=${SAUCE_OPTS}
 
